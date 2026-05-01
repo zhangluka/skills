@@ -51,7 +51,7 @@
 
 ```bash
 # 克隆到本地
-git clone git@github.com:zhangluka/skills.git
+git clone git@github.com:zhangluka/bobby-skills.git
 
 # 链接到 Claude Code skills 目录
 ln -s $(pwd)/skills/* ~/.claude/skills/
