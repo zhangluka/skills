@@ -52,7 +52,7 @@ research → topic-gen → plan-writer → proofreading
 
 | Skill | 一句话 | 触发词 |
 |:------|:-------|:-------|
-| **[huashu-design](huashu-design/)** | HTML做原型/Demo/幻灯片/动画，20种设计哲学，导出MP4/GIF | `做原型` `设计Demo` `HTML演示` |
+| **[huashu-design](huashu-design/)** | HTML做原型/Demo/幻灯片/动画，20种设计哲学，导出MP4/GIF · 借鉴 [alchaincyf/huashu-design](https://github.com/alchaincyf/huashu-design) | `做原型` `设计Demo` `HTML演示` |
 
 ---
 
