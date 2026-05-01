@@ -2,29 +2,48 @@
 
 个人 `Claude Code` 技能库 — 写作风格、内容创作、开发工具。自用为主，持续迭代。
 
-**5** skills · **3** categories · **~860** lines of SKILL.md
+**12** skills · **5** categories
 
 ---
+
+### Grain Plan · 谷雨计划内容创作链路
+
+| Skill | Description | Trigger |
+|-------|-------------|---------|
+| **[grain-plan-writer](grain-plan-writer/)** | 公众号长文写作 — 含流水线调度，自动编排 research → topic-gen → writing → proofreading | 写文章、稿子、帮我写 |
+| **[grain-research](grain-research/)** | 结构化调研 — 增量保存到文件，防会话截断丢失 | 调研、查一下、搜索资料 |
+| **[grain-topic-gen](grain-topic-gen/)** | 选题生成 — 3-4个方向，含标题、大纲、优劣分析 | 选题、写什么、方向 |
+| **[grain-proofreading](grain-proofreading/)** | 三轮审校 — 6类AI腔识别，目标AI检测率<30% | 审校、去AI味、校对 |
+| **[grain-material-search](grain-material-search/)** | 个人素材库 — 从历史内容搜索可复用的真实素材 | 素材、案例、之前写过的 |
+
+创作流水线：`research → topic-gen → plan-writer → proofreading`
+
+### X/Twitter · 推特运营
+
+| Skill | Description | Trigger |
+|-------|-------------|---------|
+| **[dashen-x-battle-plan-v2](dashen-x-battle-plan-v2/)** | X内容作战计划 — 数据分析 + 30天计划 + 执行复盘，支持首次分析/7天复盘/季度复盘 | 内容作战计划、X创作计划 |
+| **[high-impact-promo-posts](high-impact-promo-posts/)** | 多平台推广帖 — 追热点、要互动，覆盖小红书/公众号/头条/X | 写推广帖、追热点 |
 
 ### Writing Style · 写作风格
 
 | Skill | Description | Trigger |
 |-------|-------------|---------|
-| **[xiaojohn-style-writer](xiaojohn-style-writer/)** | 小约翰可汗风格写作 — 北方口语、高信息密度、让步转折句式、评书式叙事、结尾升华。适用于视频脚本、日常吐槽、博客润色、朋友圈文案。 | `/xiajohn-style-writer` |
-| **[grain-plan-writer](grain-plan-writer/)** | 谷雨计划公众号长文写作 — 从素材到成稿的完整工作流。支持 PDF、brief、新闻链接、语音转文字等多种输入形式。 | `/grain-plan-writer` |
-| **[cp-style-writer](cp-style-writer/)** | 博客风格写作 — 专业但诙谐幽默，悬念式标题、口语化开头、数据引用、结尾升华。适用于科技评测、行业分析、数码评论。 | `/cp-style-writer` |
+| **[xiaojohn-style-writer](xiaojohn-style-writer/)** | 小约翰可汗风格 — 北方口语、高信息密度、评书式叙事、结尾升华 | 小约翰风格、通辽风格 |
+| **[chinese-multi-platform-content](chinese-multi-platform-content/)** | 一稿多平台适配 — X/公众号/小红书/头条，平台化格式和语气调整 | 多平台发布、适配 |
 
-### Development · 开发工具
-
-| Skill | Description | Trigger |
-|-------|-------------|---------|
-| **[bobby-sweeper](bobby-sweeper/)** | 会话临时文件清理 — 扫描 Claude Code 产生的临时文件，三级安全风险评估（安全/注意/危险），确认后执行清理，释放磁盘空间。 | `/bobby-sweeper` |
-
-### Code Generation · 代码生成
+### Design · 设计
 
 | Skill | Description | Trigger |
 |-------|-------------|---------|
-| **[ai-template-generator](ai-template-generator/)** | AI 驱动项目模板生成 — 通过结构化文档 + AI 模型生成企业级项目模板，替代传统 CLI 初始化。支持 React、Vue、Node.js 等技术栈。 | `/ai-template-generator` |
+| **[huashu-design](huashu-design/)** | HTML设计能力 — 原型/Demo/幻灯片/动画，20种设计哲学，支持导出MP4/GIF | 做原型、设计Demo、HTML演示 |
+
+### System · 系统工具
+
+| Skill | Description | Trigger |
+|-------|-------------|---------|
+| **[bobby-sweeper](bobby-sweeper/)** | 会话临时文件清理 — 三级安全风险评估，确认后执行清理 | 清理临时文件 |
+| **[self-review](self-review/)** | 周复盘 — 分析任务模式，生成改进策略，更新记忆 | 周复盘、自我进化 |
 
 ---
 
@@ -45,18 +64,18 @@ ln -s $(pwd)/skills/bobby-sweeper ~/.claude/skills/
 
 ```
 skills/
-├── xiaojohn-style-writer/
-│   └── SKILL.md
-├── grain-plan-writer/
-│   └── SKILL.md
-├── cp-style-writer/
-│   └── SKILL.md
-├── bobby-sweeper/
-│   └── SKILL.md
-└── ai-template-generator/
-    ├── SKILL.md
-    ├── docs/
-    └── examples/
+├── grain-plan-writer/          # 公众号长文写作（含流水线）
+├── grain-research/             # 结构化调研
+├── grain-topic-gen/            # 选题生成
+├── grain-proofreading/         # 三轮审校
+├── grain-material-search/      # 个人素材库
+├── dashen-x-battle-plan-v2/    # X内容作战计划
+├── high-impact-promo-posts/    # 多平台推广帖
+├── xiaojohn-style-writer/      # 小约翰可汗风格
+├── chinese-multi-platform-content/  # 一稿多平台适配
+├── huashu-design/              # HTML设计能力
+├── bobby-sweeper/              # 临时文件清理
+└── self-review/                # 周复盘
 ```
 
 ---
