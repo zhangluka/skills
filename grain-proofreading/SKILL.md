@@ -280,6 +280,6 @@ description: |
 
 - **grain-plan-writer**：写作skill，内置L1-L4即时自检。本skill是写完后的深度审校，两者互补
 - **grain-research**：调研skill，提供写作素材。审校时如果发现事实问题，可以建议回到调研补充
-- **grain-material-search**：个人素材库（待建），审校时如果发现缺少真实案例，可以建议从素材库补充
+- **grain-material-search**：个人素材库，审校时如果发现缺少真实案例，可以从素材库搜索补充
 
 **最后更新**: 2026-05-01
