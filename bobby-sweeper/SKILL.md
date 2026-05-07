@@ -90,6 +90,18 @@ find . -maxdepth 2 -type f \( \
 find /tmp -maxdepth 2 -name "claude-*" -type f -mmin -240 2>/dev/null
 ```
 
+**L. 旧会话记录 (Session Transcripts)** — `~/.claude/projects/` 下的 `.jsonl` 会话文件
+```bash
+# 默认模式：只扫 14 天前的旧会话
+find ~/.claude/projects/ -name "*.jsonl" -type f -mtime +14 2>/dev/null
+# --all 模式：扫所有非当前会话的 transcript（排除最近 2 天的，保留 /resume 能力）
+find ~/.claude/projects/ -name "*.jsonl" -type f -mtime +2 2>/dev/null
+```
+注意：每个项目目录下还有以 UUID 命名的子目录（含 subagent 记录），一并纳入扫描。
+```bash
+find ~/.claude/projects/ -mindepth 2 -maxdepth 2 -type d -mtime +14 2>/dev/null
+```
+
 ### Phase 3: 生成报告
 
 用以下格式向用户展示扫描结果：
@@ -115,6 +127,7 @@ find /tmp -maxdepth 2 -name "claude-*" -type f -mmin -240 2>/dev/null
 │ 备份文件        │   2    │   3.8 KB     │
 │ 工作目录临时文件│   0    │      -       │
 │ /tmp 产物       │   1    │    128 B     │
+│ 旧会话记录      │  45    │  38.2 MB     │
 ├─────────────────┼────────┼──────────────┤
 │ 合计            │  31    │   2.5 MB     │
 └─────────────────┴────────┴──────────────┘
@@ -214,6 +227,20 @@ find /tmp -maxdepth 2 -name "claude-*" -type f -mmin -240 2>/dev/null
 [K] /tmp 产物
     风险: 🟢 安全
     理由: 后台任务输出，任务完成即无用
+
+[L] 旧会话记录 (~/.claude/projects/*/\*.jsonl 及子目录)
+    风险: 按年龄分级
+    检查:
+    - 计算每个文件的年龄（天数）
+    - 排除当前活跃会话（最近 2 天内的文件）
+    年龄 > 30 天 → 🟢 安全
+        理由: 超过 /resume 的恢复窗口，无实际用途
+    年龄 14-30 天 → 🟡 注意
+        理由: 可能仍可通过 /resume 恢复，但用户大概率不再需要
+        展示: 会话日期、项目名、文件大小
+    年龄 < 14 天 → 不在默认扫描范围（仅 --all 模式可见）
+        仍标注为 🟡，提示用户确认
+    额外: 统计每个项目目录的总占用空间，帮助用户决定是否整体清理某项目的旧会话
 ```
 
 **输出格式**（追加到 Phase 3 报告之后）：
@@ -229,9 +256,12 @@ find /tmp -maxdepth 2 -name "claude-*" -type f -mmin -240 2>/dev/null
   [F] Session 环境      1 个    512 B
   [G] Paste 缓存        0 个      -
   [K] /tmp 产物         1 个    128 B
-  小计: 可安全释放 14.1 KB，无任何副作用
+  [L] 旧会话(>30天)    32 个  28.6 MB
+  小计: 可安全释放 28.7 MB，无任何副作用
 
 🟡 需要确认（删除前请检查）:
+  [L] 旧会话(14-30天)  13 个   9.6 MB
+      ⚠ 可通过 /resume 恢复，但大概率不再需要
   [B] 任务文件          5 个   8.2 KB
       ⚠ 2 个任务仍为 pending 状态
         → "Fix auth bug" (pending, 2h ago)
@@ -322,6 +352,12 @@ rm -f <files>
 
 # K. /tmp 产物
 rm -f <files>
+
+# L. 旧会话记录
+# 删除 .jsonl 文件及其同名子目录（如有）
+rm -f <transcript-files>
+rm -rf <subagent-dirs>
+# 注意: 不要删除整个项目目录，只删除其中的 .jsonl 和 UUID 子目录
 ```
 
 ### Phase 5: 确认报告
@@ -337,7 +373,8 @@ rm -f <files>
 
 ## 安全规则
 
-1. **永远不删除**：`~/.claude/CLAUDE.md`、`settings.json`、`settings.local.json`、`history.jsonl`、记忆文件、进化数据、transcripts、skills
+1. **永远不删除**：`~/.claude/CLAUDE.md`、`settings.json`、`settings.local.json`、`history.jsonl`、记忆文件、进化数据、skills
+1b. **会话记录按年龄清理**：`~/.claude/projects/` 下的 `.jsonl` 和子目录，仅清理 14 天以上的旧会话。最近 2 天的文件永远不删（保留 /resume 能力）。2-14 天的需用户确认。
 2. **永远不删除**：当前项目中的源代码文件、配置文件、`node_modules`、`.git`
 3. **Worktree 删除前**：必须 `git status` 检查是否有未提交变更，有则警告用户
 4. **定时任务删除前**：显示 job 内容让用户确认
